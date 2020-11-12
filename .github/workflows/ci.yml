@@ -9,13 +9,13 @@ on:
 jobs:
   Skip:
     if: contains(github.event.head_commit.message, '[skip ci]')
-    runs-on: ubuntu-latest
+    runs-on: ${{ runner.os }}
     steps:
       - name: Skip CI 🚫
         run: echo skip ci
      
   Test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
