@@ -6,15 +6,9 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs:
-  Skip:
-    if: contains(github.event.head_commit.message, '[skip ci]')
-    runs-on: ${{ runner.os }}
-    steps:
-      - name: Skip CI 🚫
-        run: echo skip ci
-     
+jobs:     
   Test:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
