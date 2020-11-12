@@ -435,7 +435,7 @@ describe "JavaScript grammar", ->
         expect(tokens[1]).toEqual value: '--', scopes: ['source.js', 'keyword.operator.decrement.js']
 
     describe "logical", ->
-      operators = ["&&", "||", "!"]
+      operators = ["&&", "||", "!", "??"]
 
       it "tokenizes them", ->
         for operator in operators
@@ -1488,6 +1488,10 @@ describe "JavaScript grammar", ->
       expect(tokens[1]).toEqual value: '...', scopes: ['source.js', 'meta.function.arrow.js', 'meta.parameters.js', 'keyword.operator.spread.js']
       expect(tokens[2]).toEqual value: 'args', scopes: ['source.js', 'meta.function.arrow.js', 'meta.parameters.js', 'variable.parameter.rest.function.js']
 
+      {tokens} = grammar.tokenizeLine('(c, ...val) => c + val')
+      expect(tokens[4]).toEqual value: '...', scopes: ['source.js', 'meta.function.arrow.js', 'meta.parameters.js', 'keyword.operator.spread.js']
+      expect(tokens[4]).toEqual value: 'val', scopes: ['source.js', 'meta.function.arrow.js', 'meta.parameters.js', 'variable.parameter.rest.function.js']
+
     it "tokenizes illegal parameters", ->
       {tokens} = grammar.tokenizeLine('0abc => {}')
       expect(tokens[0]).toEqual value: '0abc', scopes: ['source.js', 'meta.function.arrow.js', 'meta.parameters.js', 'invalid.illegal.identifier.js']
@@ -1770,6 +1774,28 @@ describe "JavaScript grammar", ->
       expect(tokens[1]).toEqual value: '.', scopes: ['source.js', 'meta.delimiter.property.js']
       expect(tokens[2]).toEqual value: 'C', scopes: ['source.js', 'constant.other.property.js']
 
+    it "supports the optional chaining operator", ->
+      {tokens} = grammar.tokenizeLine('obj?.prop')
+      expect(tokens[0]).toEqual value: 'obj', scopes: ['source.js', 'variable.other.object.js']
+      expect(tokens[1]).toEqual value: '?.', scopes: ['source.js', 'meta.delimiter.property.js']
+      expect(tokens[2]).toEqual value: 'prop', scopes: ['source.js', 'variable.other.property.js']
+
+      {tokens} = grammar.tokenizeLine('obj?.$_')
+      expect(tokens[0]).toEqual value: 'obj', scopes: ['source.js', 'variable.other.object.js']
+      expect(tokens[1]).toEqual value: '?.', scopes: ['source.js', 'meta.delimiter.property.js']
+      expect(tokens[2]).toEqual value: '$_', scopes: ['source.js', 'variable.other.object.property.js']
+
+      {tokens} = grammar.tokenizeLine('a()?.b()')
+      expect(tokens[2]).toEqual value: ')', scopes: ['source.js', 'meta.function-call.js', 'meta.arguments.js', 'punctuation.definition.arguments.end.bracket.round.js']
+      expect(tokens[3]).toEqual value: '?.', scopes: ['source.js', 'meta.delimiter.property.js']
+      expect(tokens[4]).toEqual value: 'b', scopes: ['source.js', 'variable.other.property.js']
+    
+      {tokens} = grammar.tokenizeLine('a()?.MY_CONSTANT')
+      expect(tokens[0]).toEqual value: 'a', scopes: ['source.js', 'variable.other.object.js']
+      expect(tokens[1]).toEqual value: '?.', scopes: ['source.js', 'meta.delimiter.property.js']
+      expect(tokens[2]).toEqual value: 'MY_CONSTANT', scopes: ['source.js', 'constant.other.property.js']
+
+
   describe "strings and functions", ->
     it "doesn't confuse them", ->
       {tokens} = grammar.tokenizeLine("'a'.b(':c(d)')")
@@ -1831,11 +1857,6 @@ describe "JavaScript grammar", ->
       expect(tokens[0]).toEqual value: '/**', scopes: ['source.js', 'comment.block.documentation.js', 'punctuation.definition.comment.begin.js']
       expect(tokens[1]).toEqual value: ' foo ', scopes: ['source.js', 'comment.block.documentation.js']
       expect(tokens[2]).toEqual value: '*/', scopes: ['source.js', 'comment.block.documentation.js', 'punctuation.definition.comment.end.js']
-
-    it "tokenizes // comments", ->
-      {tokens} = grammar.tokenizeLine('// comment')
-      expect(tokens[0]).toEqual value: '//', scopes: ['source.js', 'comment.line.double-slash.js', 'punctuation.definition.comment.js']
-      expect(tokens[1]).toEqual value: ' comment', scopes: ['source.js', 'comment.line.double-slash.js']
 
     it "tokenizes comments inside constant definitions", ->
       {tokens} = grammar.tokenizeLine('const a, // comment')
