@@ -1490,7 +1490,7 @@ describe "JavaScript grammar", ->
 
       {tokens} = grammar.tokenizeLine('(c, ...val) => c + val')
       expect(tokens[4]).toEqual value: '...', scopes: ['source.js', 'meta.function.arrow.js', 'meta.parameters.js', 'keyword.operator.spread.js']
-      expect(tokens[4]).toEqual value: 'val', scopes: ['source.js', 'meta.function.arrow.js', 'meta.parameters.js', 'variable.parameter.rest.function.js']
+      expect(tokens[5]).toEqual value: 'val', scopes: ['source.js', 'meta.function.arrow.js', 'meta.parameters.js', 'variable.parameter.rest.function.js']
 
     it "tokenizes illegal parameters", ->
       {tokens} = grammar.tokenizeLine('0abc => {}')
@@ -1792,8 +1792,8 @@ describe "JavaScript grammar", ->
     
       {tokens} = grammar.tokenizeLine('a()?.MY_CONSTANT')
       expect(tokens[0]).toEqual value: 'a', scopes: ['source.js', 'variable.other.object.js']
-      expect(tokens[1]).toEqual value: '?.', scopes: ['source.js', 'meta.delimiter.property.js']
-      expect(tokens[2]).toEqual value: 'MY_CONSTANT', scopes: ['source.js', 'constant.other.property.js']
+      expect(tokens[4]).toEqual value: '?.', scopes: ['source.js', 'meta.delimiter.property.js']
+      expect(tokens[5]).toEqual value: 'MY_CONSTANT', scopes: ['source.js', 'constant.other.property.js']
 
 
   describe "strings and functions", ->
