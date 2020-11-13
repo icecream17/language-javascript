@@ -1142,7 +1142,7 @@
     ]
   }
   {
-    'begin': '\\?'
+    'begin': '(?<!\\?)\\?(?!\\.|\\?)'
     'beginCaptures':
       '0':
         'name': 'keyword.operator.ternary.js'
@@ -1195,7 +1195,7 @@
   }
   { 
     # Optional chaining operator
-    'match': '\\.|\\?\\.'
+    'match': '\\?\\.|\\.'
     'name': 'meta.delimiter.method.js'
   }
   {
