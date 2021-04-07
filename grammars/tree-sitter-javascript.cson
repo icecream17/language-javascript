@@ -206,7 +206,6 @@ scopes:
   '"<"': 'keyword.operator.js'
   '":"': 'keyword.operator.js'
   '"?"': 'keyword.operator.js'
-  '"??"': 'keyword.operator.js'
   '"&&"': 'keyword.operator.js'
   '"||"': 'keyword.operator.js'
   '"&"': 'keyword.operator.js'
@@ -229,7 +228,6 @@ scopes:
   '"get"': 'keyword.operator.setter'
   '"set"': 'keyword.operator.setter'
 
-  '"?."': 'meta.delimiter.optional'
   '"."': 'meta.delimiter.period'
   '","': 'meta.delimiter.comma'
 
