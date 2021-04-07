@@ -114,7 +114,7 @@ scopes:
 
   'identifier': [
     {
-      match: '^(global|globalThis|module|exports|__filename|__dirname)$',
+      match: '^(globalThis|global|module|exports|__filename|__dirname)$',
       scopes: 'support.variable'
     },
     {
