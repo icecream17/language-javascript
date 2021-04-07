@@ -184,7 +184,6 @@ scopes:
   '"*="': 'keyword.operator.js'
   '"/="': 'keyword.operator.js'
   '"%="': 'keyword.operator.js'
-  '"**="': 'keyword.operator.js'
   '"<<="': 'keyword.operator.js'
   '">>="': 'keyword.operator.js'
   '">>>="': 'keyword.operator.js'
@@ -197,7 +196,6 @@ scopes:
   '"*"': 'keyword.operator.js'
   '"/"': 'keyword.operator.js'
   '"%"': 'keyword.operator.js'
-  '"**"': 'keyword.operator.js'
   '"=="': 'keyword.operator.js'
   '"==="': 'keyword.operator.js'
   '"!="': 'keyword.operator.js'
@@ -233,7 +231,7 @@ scopes:
 
   '"?."': 'meta.delimiter.optional'
   '"."': 'meta.delimiter.period'
-  '","': 'meta.delimiter.comma' # Comma is also an operator...
+  '","': 'meta.delimiter.comma'
 
   '"as"': 'keyword.control'
   '"if"': 'keyword.control'
